@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <!-- O hífen utilizado no operador abaixo indica que parcial do ejs está sendo incorporado -->
+        <!-- Incluindo o head -->
+        <%- include('../partials/head'); %>
+        <title>Página Inicial</title>
+    </head>
+    <body>
+        <div>
+            <!-- Incluindo o header -->
+            <%- include('../partials/header'); %>
+            <main class="container card">
+                <%- include('../partials/alertByQuery'); %>
+                <div  class="card-body">
+                    <div class="container bg-secondary text-white p-4 mb-4">
+                        <h1>APRESENTAÇÃO</h1>
+                        <hr>
+                        <p class="w-75">Seja bem-vindo <strong> <%= userName ;%> </strong>!!! O presente blog buscar trazer conteúdo relacionado às disciplinas do Curso de Tecnologia em Redes de Commputadores, desde artigos à tutoriais. Caso possua interesse em produzir conteúdo para o site, entre em contato com o administrador clicando no botão abaixo.</p>
+
+                        <a href="/contact" class="btn btn-primary">Saiba mais</a>
+                    </div>
+                    <article>
+                        <div class="d-flex justify-content-center">
+                            <h3>Últimas postagens</h3>
+                        </div>
+                        <%- include('../partials/listPosts'); %> 
+                    </article>  
+                </div>       
+            </main>
+            
+        </div>
+        <!-- Incluindo o footer -->
+        <%- include('../partials/footer'); %>
+    </body>
+</html>

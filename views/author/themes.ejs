@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <!-- O hífen utilizado no operador abaixo indica que parcial do ejs está sendo incorporado -->
+        <!-- Incluindo o head -->
+        <%- include('../partials/head'); %>
+        <title>Temas</title>
+    </head>
+    <body>
+        <div>
+            <!-- Incluindo o header -->
+            <%- include('../partials/header'); %>
+            
+            <main class="container card">
+                <%- include('../partials/alertByQuery'); %>
+                <div class="card-body">
+                    <h1>Temas</h1>
+                    <div class="d-flex justify-content-center">
+                        <% if(eAuthor){ %>
+                            <a class="btn btn-info" href="/themes/add?path=0">Adicionar novo tema</a>
+                        <% } %>
+                    </div>
+                    <article>
+                        <% if(themes.length > 0){ ;%>
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nome</th>
+                                    <% if(eAuthor){ %> 
+                                        <th scope="col" colspan="2">Ações</th>
+                                    <% } %>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <% themes.forEach((theme, id) => { ;%>
+                                    <% if(id % 2 == 0){ %>
+                                        <tr class="table-info">
+                                    <% }else{ %>
+                                        <tr>
+                                    <% } %>
+                                        <th scope="col"><%= id+1 %></th>
+                                        <td><a class="link-table" href="/posts/theme/<%= theme.slug %>"><%= theme.name ;%></a></td>
+                                        <% if(eAuthor){ %>
+                                            <td><a class="link-table" href="themes/update/<%= theme.slug %>">Editar</a></td>
+                                            <td><a class="link-table" href="themes/delete/<%= theme.slug %>">Deletar</a></td>   
+                                        <% } %>
+                                    </tr>
+                                <% }) ;%>
+                                </tbody>
+                            </table>
+                        <% } else{ ;%>
+                            <p>Nenhum tema foi adicionado.</p>
+                        <% } ;%>
+                    </article>
+                </div>
+            </main>
+            <!-- Incluindo o footer -->
+            <%- include('../partials/footer'); %>
+        </div>
+    </body>
+</html>

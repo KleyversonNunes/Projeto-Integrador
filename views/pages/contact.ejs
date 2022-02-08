@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <!-- O hífen utilizado no operador abaixo indica que parcial do ejs está sendo incorporado -->
+        <!-- Incluindo o head -->
+        <%- include('../partials/head'); %>
+        <title>Contato</title>
+        <link rel="stylesheet" href="/css/footer1.css">
+        <style>
+            h3 a{
+                text-decoration: none;
+                font-size: calc(1rem + .5vw);;
+            }
+            h3 a:hover{
+                color: rgb(12, 221, 47);
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <!-- Incluindo o header -->
+            <%- include('../partials/header'); %>
+            <main class="container card">
+                <div class="card-body">
+                    <h1>Informações de contato</h1>
+                    <p>Para entrar em contato com o administrador do site, utilize uma das opções abaixo.</p>
+                    <h3>
+                        <a href="https://api.whatsapp.com/send?phone=55949984278756" target="_blank">Whatsapp</a>
+                    </h3>
+                    <h3>
+                        <a href="mailto:kleyversonnunes18@gmail.com">Email</a>
+                    </h3>
+                </div>
+            </main>
+            <!-- Incluindo o footer -->
+            <%- include('../partials/footer'); %>
+        </div>
+    </body>
+</html>

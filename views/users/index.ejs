@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <!-- O hífen utilizado no operador abaixo indica que parcial do ejs está sendo incorporado -->
+        <!-- Incluindo o head -->
+        <%- include('../partials/head'); %>
+        <title>Usuarios cadastrados</title>
+    </head>
+    <body>
+        <div>
+            <!-- Incluindo o header -->
+            <%- include('../partials/header'); %>
+            <main class="container card">
+                <div class="card-body">
+                    <h1>Lista de Usuários</h1>
+                    <div class="d-flex justify-content-center">
+                        <a href="/users/register" class="btn btn-info">Adicionar novo usuário</a>
+                    </div>
+                    <% if(docs.length > 0){ ;%>
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nome</th>
+                                <th scope="col" colspan="2">Ações</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <% docs.forEach((user, id) => { ;%>
+                                <% if(id % 2 == 0){ %>
+                                    <tr class="table-info">
+                                <% }else{ %>
+                                    <tr>
+                                <% } %>
+                                    <th scope="row"><%= id+1 %></th>
+                                    <td><a class="link-table" href="mailto:<%= user.email ;%>"><%= user.userName;%></a></td>
+                                    <td><a class="link-table" href="users/update/<%= user._id ;%>">Editar</a></td>
+                                    <td><a class="link-table" href="users/delete/<%= user._id ;%>">Deletar</a></td>   
+                                </tr>
+                            <% }) ;%>
+                            </tbody>
+                        </table>
+                    <% } else{ ;%>
+                        <p>Nenhum usuário cadastrado</p>
+                    <% } ;%>
+                </div>
+            </main>
+            <!-- Incluindo o footer -->
+            <%- include('../partials/footer'); %>
+        </div>
+    </body>
+</html>

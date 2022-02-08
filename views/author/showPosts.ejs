@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <!-- O hífen utilizado no operador abaixo indica que parcial do ejs está sendo incorporado -->
+        <!-- Incluindo o head -->
+        <style>
+            iframe{
+                width: 55vw;
+                height: 30vw;
+            }
+        </style>
+        <%- include('../partials/head'); %>
+        <title><%= title ;%></title>
+    </head>
+    <body>
+        <div>
+            <!-- Incluindo o header -->
+            <%- include('../partials/header'); %>
+            <main class='container card'>
+                <div class="card-body">
+                    <h2><%= title ;%></h2>
+                    <span>Escrito por <a href="/posts/author/<%= author ;%>"><%= author ;%></a> | </span>
+                    <span>Tema: <a href="/posts/theme/<%= slug %>"><%= theme %></a> |</span>
+                    <span>Tipo: <a href="/posts/type/<%= type %>"><%= type %></a> </span>
+                    <hr>
+                    <article>
+                        <p><%= description %></p>
+                        <% data.forEach(element => { %>
+                            <% if(element.type == 'p'){ %>
+                                <p class="parg"><%= element.prop1 %></p>
+                            <% } %>
+                            <% if(element.type == 'pre'){ %>
+                                <pre><%= element.prop1 %></pre>
+                            <% } %>
+                            <% if(element.type == 'h4'){ %>
+                                <h4><%= element.prop1 %></h4>
+                            <% } %>
+                            <% if(element.type == 'iframe'){ %>
+                                <div class="d-flex justify-content-center">
+                                    <iframe
+                                    src="<%= element.prop1 %>" 
+                                    title="YouTube video player" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen>
+                                    </iframe>
+                                </div>
+                            <% } %>
+                            <% if(element.type == 'img'){ %>
+                                <div class="d-flex justify-content-center">
+                                    <img class="img-fluid" src="<%= element.prop1 %>" alt="<%= element.prop2 %>">
+                                </div>
+                            <% } %>
+                        <% }) %>
+                    </article>
+                </div>
+            </main>
+            <!-- Incluindo o footer -->
+            <%- include('../partials/footer'); %>
+        </div>
+        <script>
+            let p = document.querySelectorAll('.parg')
+            let p1 = document.querySelector('.parg')
+            p.forEach((e,i) => {
+                //e.innerHTML = `<a href="http://google.com" target="_blank">Paragráfo nº ${i+1}</a>`
+                console.log(e.innerText)
+                e.innerHTML = e.innerText
+            })               
+        </script>
+    </body>
+</html>

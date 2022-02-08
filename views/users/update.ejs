@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <!-- O hífen utilizado no operador abaixo indica que parcial do ejs está sendo incorporado -->
+        <!-- Incluindo o head -->
+        <%- include('../partials/head'); %>
+        <title>Atualizar dados de usuário</title>
+        <link rel="stylesheet" href="/css/footer1.css">
+    </head>
+    <body>
+        <div>
+            <!-- Incluindo o header -->
+            <%- include('../partials/header'); %>
+            <main class="container card">
+                <div class="card-body">
+                    <h1>Editar dados</h1>
+                    <form action="/users/update/<%= doc._id ;%>" method="POST">
+                        <label for="name" class="form-label">Username: </label>
+                        <input type="text" class="form-control" value="<%= doc.userName ;%>" name="userName" id="name" required>
+                        <label for="mail" class="form-label">Email: </label>
+                        <input type="email" class="form-control" value="<%= doc.email ;%>" name="email" id="mail" required>
+                        <label for="autor" class="form-label">Autor: </label>
+                        <input type="number" class="form-control" value="<%= doc.eAuthor ;%>" name="eAuthor" id="autor" required>
+                        
+
+                        <div class="d-grid gap-2">
+                            <input class="btn btn-primary mt-4" type="submit" value="Atualizar">
+                        </div>
+                    </form>
+                </div>
+            </main>
+            <!-- Incluindo o footer -->
+            <%- include('../partials/footer'); %>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <!-- O hífen utilizado no operador abaixo indica que parcial do ejs está sendo incorporado -->
+        <!-- Incluindo o head -->
+        <%- include('../partials/head'); %>
+        <link rel="stylesheet" href="/css/login.css">
+        <link rel="stylesheet" href="/css/signup.css">
+        <title>Esqueceu a senha</title>
+    </head>
+    <body>
+        <div class="container d-flex flex-column align-items-center">
+            <%- include('../partials/alertByForm') ;%>
+
+            <main class="form-signin text-center">
+                <form action="" method="POST">
+                <img class="mb-4" src="/icons/forgotIcon.png" alt="Icone para esqueceu a senha">
+                  <h1 class="h3 mb-3 fw-normal">Altere a sua senha</h1>
+    
+                  <div class="form-floating">
+                    <input type="text" class="form-control input-name" name="userName" id="floatingName" autofocus placeholder="Nome">
+                    <label for="floatingName">Nome</label>
+                  </div>
+    
+                  <div class="form-floating">
+                    <input type="password" class="form-control input-name" name="password2" id="floatingPassword2" placeholder="Senha">
+                    <label for="floatingPassword2">Digite a nova senha</label>
+                  </div>
+    
+                  <div class="form-floating">
+                    <input type="password" class="form-control" name="password1" id="floatingPassword1" placeholder="Senha">
+                    <label for="floatingPassword1">Repita a senha</label>
+                  </div>
+                  <button class="w-100 btn btn-lg btn-primary" type="submit">Salvar alteração</button>
+                  
+                  <div class="mt-3"> 
+                    <a href="/login" class="link-primary">Voltar para o login</a>
+                  </div>
+        
+                  <p class="mt-4 mb-3 text-muted">&copy; 2021–2022</br>Desenvolvido por Kleyverson Nunes</p>
+                </form>
+            </main>    
+        </div>
+    </body>
+    <script src="/js/alerts.js"></script>
+</html>

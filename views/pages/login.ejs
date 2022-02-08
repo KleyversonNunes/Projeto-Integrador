@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<head>
+    <%- include('../partials/head'); %>
+    <title>Página de Login</title>
+    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="/css/signup.css">
+</head>
+<body>
+  <div class="container d-flex flex-column align-items-center">
+    <%- include('../partials/alertByQuery') ;%>
+
+    <main class="form-signin text-center">
+        <form action="" method="POST">
+        <img class="mb-4" src="/icons/loginIcon.png" alt="Icone de perfil login">
+          <h1 class="h3 mb-3 fw-normal">Login</h1>
+      
+          <div class="form-floating">
+            <input type="text" class="form-control input-name" name="userName" id="floatingInput" autofocus placeholder="Nome">
+            <label for="floatingInput">Nome</label>
+          </div>
+          <div class="form-floating">
+            <input type="password" class="form-control" name="password" id="floatingPassword" placeholder="Senha">
+            <label for="floatingPassword">Senha</label>
+          </div>
+          <button class="w-100 btn btn-lg btn-primary" type="submit">Entrar</button>
+        
+          <div class="mt-3">
+            <a href="/forgot" class="link-primary">Esqueceu sua senha?</a> | 
+            <a href="/signup" class="link-primary">Cadastre-se agora</a>
+          </div>
+
+          <p class="mt-4 mb-3 text-muted">&copy; 2021–2022</br>Desenvolvido por Kleyverson Nunes</p>
+        </form>
+        
+    </main>
+  </div>
+  <script src="/js/alerts.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+.input-name{
+    margin-bottom: -1px !important;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.input-email{
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+p{
+    font-size: 1rem;
+}
+
+.alert-width{
+    width: 380px;
+}
+
+@media (max-width: 500px){
+    .alert-width{
+        width: 350px;
+    }
+}
+
+@media (max-width: 380px){
+    .alert-width{
+        width: 310px;
+    }
+}

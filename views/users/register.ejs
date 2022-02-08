@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <!-- O hífen utilizado no operador abaixo indica que parcial do ejs está sendo incorporado -->
+        <!-- Incluindo o head -->
+        <%- include('../partials/head'); %>
+        <title>Cadastrar novo usuário</title>
+        <link rel="stylesheet" href="/css/footer1.css">
+    </head>
+    <body>
+        <div>
+            <!-- Incluindo o header -->
+            <%- include('../partials/header'); %>
+            <main class="container card">
+                <div class="card-body">
+                    <h1>Cadastro de Usuários</h1>
+                    <form action="" method="POST">
+                        <label for="name" class="form-label">Username: </label>
+                        <input type="text" class="form-control" name="userName" id="name" required><br>
+                        <label for="mail" class="form-label">Email: </label>
+                        <input type="email" class="form-control" name="email" id="mail" required><br>
+                        <label for="psw" class="form-label">Password: </label>
+                        <input type="password" class="form-control" name="password" id="psw" required><br>
+                        
+                        <div class="d-grid gap-2">
+                            <input class="btn btn-primary mt-4" type="submit" value="Enviar">
+                        </div>
+                    </form>
+                </div>
+            </main>
+            <!-- Incluindo o footer -->
+            <%- include('../partials/footer'); %>
+        </div>
+    </body>
+</html>

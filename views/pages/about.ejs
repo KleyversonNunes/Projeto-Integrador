@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <!-- O hífen utilizado no operador abaixo indica que parcial do ejs está sendo incorporado -->
+        <!-- Incluindo o head -->
+        <%- include('../partials/head'); %>
+        <title>Sobre</title>
+    </head>
+    <body>
+        <div>
+            <!-- Incluindo o header -->
+            <%- include('../partials/header'); %>
+            <main class="container card">
+                <div  class="card-body">
+                    <h1>Informações sobre o site</h1>
+                    <article>
+                        <p>A criação desse site se deu durante a disciplina Projeto Integrador I do curso de Tecnologia em Redes de Computadores. A proposta do projeto foi construir um site simples em estrutura de Blog, onde seriam feitas postagens a respeito de assuntos das disciplinas do curso de Redes de Computadores.
+                        </p>
+                        <p>O proposito principal do site é servi como um meio alternativo para compartilhamento e divulgação de informações, onde os discentes do curso de Redes possam divulgar trabalhos feitos em alguma disciplina, projetos próprios ou até mesmo criar algumm tutorial sobre algum conhecimento que o mesmo possua.</p>
+                        <p>O site foi programado com JavaScript tanto no Back-end quanto no Front-end. O Back-end foi montado com NodeJS sendo utilizado como ambiente de execução do lado do servidor, junto com os módulos Express (para criação e gerenciamento de rotas), Passport (biblioteca com estratégias para autenticação de usuários), Bcrypt (biblioteca com métodos de criptografia do tipo hash), Mongoose (biblioteca utilizada para conectar o server ao MongoDB) e EJS (view engine).</p>
+                        <p>Já o lado Front-end foi construído com HTML 5, CSS 3 (Bootstrap) e JavaScript Puro.</p>
+                        <p>O tempo de desenvolvimento do projeto foi de aproximadamente 3 meses, e no fim o resultado foi justamente o que se esperava no início site simples estruturalmente semelhante a um blog, com um bom funcionamento.</p>
+                        <p>Contudo, o site ainda encontra-se bem simplório, e durante uma futura disciplina o mesmo sofrerá a adição de outros funcionalidades.</p>
+                    </article>
+                </div>
+            </main>
+            <!-- Incluindo o footer -->
+            <%- include('../partials/footer'); %>
+        </div>
+    </body>
+</html>

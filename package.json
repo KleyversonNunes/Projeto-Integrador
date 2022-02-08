@@ -1,0 +1,20 @@
+{
+  "name": "projeto_integrador",
+  "version": "1.0.0",
+  "description": "Projeto apresentado a disciplina Projeto Integrador I",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kleyverson Nunes",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "mongoose": "^6.1.7",
+    "passport": "^0.5.2",
+    "passport-local": "^1.0.0"
+  }
+}

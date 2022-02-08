@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <!-- O hífen utilizado no operador abaixo indica que parcial do ejs está sendo incorporado -->
+        <!-- Incluindo o head -->
+        <%- include('../partials/head'); %>
+        <title>Postagens</title>
+        <style>
+            h2{
+                font-size: 1.5rem;
+            }
+            section{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 1rem;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <!-- Incluindo o header -->
+            <%- include('../partials/header'); %>
+            
+            <main class="container card"> 
+                <%- include('../partials/alertByQuery'); %>
+                <% if(eAuthor) {%>
+                    <section class="addPost">
+                        <h2>Para adionar uma nova postagem</h2>
+                        <a href="/posts/add" class="btn btn-primary">Clique aqui</a>
+                    </section>
+                <% } %>
+                <div class="card-body">
+                    <% if(eAuthor) { %>
+                        <hr>
+                    <% } %>
+                    <h1>Postagens</h1>
+                    <article>
+                        <%- include('../partials/listPosts'); %>   
+                    </article>
+                </div>
+            </main>
+            <!-- Incluindo o footer -->
+            <%- include('../partials/footer'); %>
+        </div>
+    </body>
+</html>

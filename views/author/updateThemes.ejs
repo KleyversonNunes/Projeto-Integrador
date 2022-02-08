@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <!-- O hífen utilizado no operador abaixo indica que parcial do ejs está sendo incorporado -->
+        <!-- Incluindo o head -->
+        <%- include('../partials/head'); %>
+        <title>Editar tema</title>
+        <link rel="stylesheet" href="/css/footer1.css">
+    </head>
+    <body>
+        <div>
+            <!-- Incluindo o header -->
+            <%- include('../partials/header'); %>
+            <main class="container card">
+                <div class="card-body">
+                    <h1>Editar tema</h1>
+                    <form action="/themes/update/<%= theme.slug%>" method="POST">
+                        <label for="nameTheme" class="form-label">Nome: </label>
+                        <input type="text" class="form-control" value="<%= theme.name %>" name="name" id="nameTheme" required>
+                        <label for="slugTheme" class="form-label">Slug: </label>
+                        <input type="text" class="form-control" value="<%= theme.slug %>" name="slug" id="slugTheme" required>      
+            
+                        <div class="d-grid gap-2 mt-4">
+                            <input type="submit" class="btn btn-primary" value="Editar">
+                        </div>
+                    </form>
+                </div>
+            </main>
+            <!-- Incluindo o footer -->
+            <%- include('../partials/footer'); %>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<head>
+    <%- include('../partials/head'); %>
+    <title>Adicionar nova postagem</title>
+</head>
+<body>
+    <div>
+        <%- include('../partials/header'); %>
+        <main class="container card">
+            <div class="card-body">
+                <h1>Nova postagem</h1>
+                <div class="btn-group d-flex justify-content-center" role="group" aria-label="Basic example">
+                    <button class="btn btn-secondary" id="addImg">Adicionar imagem</button>
+                    <button class="btn btn-secondary" id="addParg">Adicionar paragrafo</button>
+                    <button class="btn btn-secondary" id="addCod">Adicionar código</button>
+                    <button class="btn btn-secondary" id="addVideo">Adicionar vídeo</button>
+                    <button class="btn btn-secondary" id="addSubTopic">Adicionar subtópico</button>
+                </div>
+                <form action="/posts/add" method="POST">
+                    <label for="title" class="form-label" id="labelTeste">Título</label>
+                    <input type="text" class="form-control" name="title" id="title" required>
+
+                    <label for="authorArticle" class="form-label mt-3">Autor</label>
+                    <input type="text" class="form-control" name="author" id="authorArticle" value="<%= userName %>">
+
+                    <label for="themeArticle" class="form-label mt-3">Tema (<a href="/themes/add?path=1">Adicionar tema</a>)</label>
+                    <select name="theme" class="form-select" id="themeArticle" required>
+                        <% if(themes.length > 0){ %>
+                            <option selected>Selecione o tema</option>
+                            <% themes.forEach(theme => { %>
+                                <option value="<%= theme._id %>"> <%= theme.name %> </option>
+                            <% }) %>
+                        <% } else{ %>
+                            <option value="0">Nenhum tema cadastrado</option>
+                        <% } %>
+                    </select>
+
+                    <label for="typePosts" class="form-label mt-3">Tipo</label>
+                    <select name="type" class="form-select" id="typePosts">
+                        <option selected>Selecione o tipo de post</option>
+                        <option value="Artigo">Artigo</option>
+                        <option value="Tutorial">Tutorial</option>
+                        <option value="Informe">Informe</option>
+                    </select>
+
+                    <label for="descPosts" class="form-label mt-3">Descrição do posts</label>
+                    <textarea name="description" class="form-control" id="descPosts"></textarea>
+
+                    <hr>
+                    <h3>Conteúdo</h3>                    
+                    <hr>
+                    <div id="toAdd">
+                    </div>
+                    <hr>
+                    <div class="d-grid gap-2">
+                        <input type="submit" class="btn btn-primary" value="Publicar">
+                    </div>
+                </form>
+            </div>
+        </main>
+        <%- include('../partials/footer'); %>
+    </div>
+    <script src="/js/criarElementos.js"></script>
+</body>
+</html>
