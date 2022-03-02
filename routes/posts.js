@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 // Importando o Mongoose
-const { Mongoose } = require('../db');
+//const { Mongoose } = require('../db');
+const Mongoose = require('mongoose');
 
 // Importando o model de artigos
 require('../models/Posts');
@@ -14,6 +15,13 @@ const Posts = Mongoose.model('posts');
 // Montando o model de temas
 const Themes = Mongoose.model('themes')
 
+// Verifica se o usuário logadp é um autor
+function eAuthorMiddleware(req, res, next){
+    req.user.then(user => {
+        if(user.eAuthor) return next();
+        res.redirect('/posts?author=false')
+    })
+}
 
 // -------------------  Rota de artigos ------------------
 
@@ -44,18 +52,15 @@ router.get('/', async (req,res) => {
 })
 
 // Rota para adicionar posts
-router.get('/add', async (req,res) => {
+router.get('/add', eAuthorMiddleware, async (req,res) => {
     const themes = await Themes.find();
 
     req.user.then(user => {
-        if(user.eAuthor)
             res.render('author/addPosts', {
                 userName: user.userName,
                 eAdmin: user.eAdmin,
                 themes: themes
             })
-        else
-            res.redirect('/posts?author=false');
     })
 })
 
@@ -111,24 +116,29 @@ router.post('/add', async (req,res,next) => {
 })
 
 // Exibir postagem em sua devida página
-router.get('/:id', async(req,res) => {
-    const post = await Posts.findById(req.params.id);
-    const theme = await Themes.findById(post.theme);
+router.get('/:id', async(req,res,next) => {
+    try{
+        const post = await Posts.findById(req.params.id);
+        const theme = await Themes.findById(post.theme);
 
-    req.user.then(user => {
-        res.render('author/showPosts', {
-            title: post.title,
-            author: post.author,
-            theme: theme.name,
-            slug: theme.slug,
-            type: post.type,
-            //contents: contents,
-            description: post.description,
-            data: post.data,
-            userName: user.userName,
-            eAdmin: user.eAdmin
+        req.user.then(user => {
+            res.render('author/showPosts', {
+                title: post.title,
+                author: post.author,
+                theme: theme.name,
+                slug: theme.slug,
+                type: post.type,
+                //contents: contents,
+                description: post.description,
+                data: post.data,
+                userName: user.userName,
+                eAdmin: user.eAdmin
+            })
         })
-    })
+    }catch(err){
+        next(err);
+        res.redirect('/home')
+    }
 })
 
 // Exibir uma lista de artigos publicador por um determinado autor
@@ -137,48 +147,64 @@ router.get('/author/:author', async (req,res) => {
 
     const posts = await Posts.find({ author: author });
 
-    req.user.then(user => {
-        res.render('author/postsByAuthor', {
-            posts: posts,
-            author: author,
-            userName: user.userName,
-            eAdmin: user.eAdmin
+    if(posts.length){
+        req.user.then(user => {
+            res.render('author/postsByAuthor', {
+                posts: posts,
+                author: author,
+                userName: user.userName,
+                eAdmin: user.eAdmin
+            })
         })
-    })
+    }else{
+        res.redirect('/posts')
+    }
 })
 
 // Exibir uma lista de posts de acordo com o tipo
 router.get('/type/:type', async (req,res) => {
     const type = req.params.type;
 
-    const posts = await Posts.find({type: type});
+    if(type == 'Artigos' || type == 'Tutoriais' || type == 'Informes'){
+        const posts = await Posts.find({type: type});
 
-    req.user.then(user => {
-        res.render('author/postsByType', {
-            posts: posts,
-            type: type,
-            userName: user.userName,
-            eAdmin: user.eAdmin
+        req.user.then(user => {
+            res.render('author/postsByType', {
+                posts: posts,
+                type: type,
+                userName: user.userName,
+                eAdmin: user.eAdmin
+            })
         })
-    })
+    }else{
+        res.redirect('/home')
+    }
 })
 
 // Exibir uma lista de posts de acordo com o tema
-router.get('/theme/:slug', async (req, res) => {
+router.get('/theme/:slug', async (req, res, next) => {
     const slug = req.params.slug;
     
-    const theme = await Themes.find({slug: slug});
+    const theme = await Themes.findOne({slug: slug});
 
-    const posts = await Posts.find({theme: theme[0].id});
+    //const posts = await Posts.find({theme: theme[0].id});
+    
+    try{
+        const posts = await Posts.find({theme: theme.id});
 
-    req.user.then(user => {
-        res.render('author/postsByTheme', {
-            theme: theme[0].name,
-            posts: posts,
-            userName: user.userName,
-            eAdmin: user.eAdmin
+        req.user.then(user => {
+            res.render('author/postsByTheme', {
+                //theme: theme[0].name,
+                theme: theme.name,
+                posts: posts,
+                userName: user.userName,
+                eAdmin: user.eAdmin
+            })
         })
-    })
+    }catch(err){
+        next(err);
+        res.redirect('/themes')
+    }
 })
 
 // Rota para deletar postagens

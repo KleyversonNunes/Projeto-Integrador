@@ -4,7 +4,8 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 
 // Importando o Mongoose
-const { Mongoose } = require('../db');
+//const { Mongoose } = require('../db');
+const Mongoose = require('mongoose');
 
 // Cria a collection users
 require('../models/Users')
@@ -19,27 +20,27 @@ router.get('/', async (req,res) => {
     const docs = await Users.find();
 
     req.user.then(user => {
-        if(user.eAdmin)
+        //if(user.eAdmin)
             res.render('users/index', { 
                 docs: docs, 
                 userName: null,
                 eAdmin: user.eAdmin
             })
-        else
-            res.redirect('/home?access=denied')
+        //else
+        //    res.redirect('/home?access=denied')
     })
 });
 
 // Rota de Cadastro de Usuários
 router.get('/register', (req,res) => {
     req.user.then(user => {
-        if(user.eAdmin)
+        //if(user.eAdmin)
             res.render('users/register', { 
                 userName: null,
                 eAdmin: user.eAdmin
             })
-        else
-            res.redirect('/home?access=denied')
+        //else
+        //    res.redirect('/home?access=denied')
     })
 });
 
@@ -68,14 +69,14 @@ router.get('/update/:id', async(req,res) => {
     const doc = await Users.findOne({ _id: id });
     
     req.user.then(user => {
-        if(user.eAdmin)
+        //if(user.eAdmin)
             res.render('users/update', { 
                 doc: doc, 
                 userName: null,
                 eAdmin: user.eAdmin
             })
-        else
-            res.redirect('/home?access=denied')
+        //else
+        //    res.redirect('/home?access=denied')
     })
 })
 
@@ -84,16 +85,8 @@ router.post('/update/:id', async(req,res) => {
     const update = {
         userName: req.body.userName,
         email: req.body.email,
-        eAuthor: req.body.eAuthor,
-        //password: req.body.password
+        eAuthor: req.body.eAuthor
     }
-
-    //const saltRounds = 10;
-    //const salt = bcrypt.genSaltSync(saltRounds);
-    //const password = bcrypt.hashSync(req.body.password, salt);
-
-    // Atualiza a senha para a forma em hash
-    //update.password = password;
 
     try{
         await Users.findOneAndUpdate(id, update);
@@ -116,4 +109,3 @@ router.get('/delete/:id', async(req,res,next) => {
 })
 
 module.exports = router
-

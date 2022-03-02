@@ -11,7 +11,7 @@
             <!-- Incluindo o header -->
             <%- include('../partials/header'); %>
             
-            <main class="container card">
+            <main class="container card mt-56">
                 <%- include('../partials/alertByQuery'); %>
                 <div class="card-body">
                     <h1>Temas</h1>
@@ -42,8 +42,8 @@
                                         <th scope="col"><%= id+1 %></th>
                                         <td><a class="link-table" href="/posts/theme/<%= theme.slug %>"><%= theme.name ;%></a></td>
                                         <% if(eAuthor){ %>
-                                            <td><a class="link-table" href="themes/update/<%= theme.slug %>">Editar</a></td>
-                                            <td><a class="link-table" href="themes/delete/<%= theme.slug %>">Deletar</a></td>   
+                                            <td><a class="link-table" href="themes/update/<%= theme._id %>">Editar</a></td>
+                                            <td><a class="link-table" href="themes/delete/<%= theme._id %>">Deletar</a></td>   
                                         <% } %>
                                     </tr>
                                 <% }) ;%>

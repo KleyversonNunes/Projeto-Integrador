@@ -2,9 +2,9 @@
     <div class="d-flex justify-content-evenly flex-wrap">
     <% posts.forEach((post) => { ;%>
         <div class="card text-center ms-3 me-3 mt-3" style="width: 20rem;">
-            <% if(post.type ==  'Artigo'){ %>
+            <% if(post.type ==  'Artigos'){ %>
                 <div class="card-header bg-primary text-light">
-            <% }else if(post.type ==  'Tutorial'){ %>
+            <% }else if(post.type ==  'Tutoriais'){ %>
                 <div class="card-header bg-success text-light">
             <% } else {%>
                 <div class="card-header bg-warning text-light">

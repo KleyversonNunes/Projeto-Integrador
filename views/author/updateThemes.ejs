@@ -11,10 +11,10 @@
         <div>
             <!-- Incluindo o header -->
             <%- include('../partials/header'); %>
-            <main class="container card">
+            <main class="container card mt-56">
                 <div class="card-body">
                     <h1>Editar tema</h1>
-                    <form action="/themes/update/<%= theme.slug%>" method="POST">
+                    <form action="/themes/update/<%= theme._id%>" method="POST">
                         <label for="nameTheme" class="form-label">Nome: </label>
                         <input type="text" class="form-control" value="<%= theme.name %>" name="name" id="nameTheme" required>
                         <label for="slugTheme" class="form-label">Slug: </label>

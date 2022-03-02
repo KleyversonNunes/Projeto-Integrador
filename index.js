@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const mongoose = require('mongoose');
+const db = require('./db')
 
 // Importando rotas de arquivos separados
 const loginRouter = require('./routes/login');
@@ -10,35 +12,52 @@ const postsRouter = require('./routes/posts');
 const themesRouter = require('./routes/themes');
 const userRouter = require('./routes/user');
 
-// Definindo o EJS como view engine do projeto
-app.set('view engine', 'ejs');
+// Configurações
+    // Mongoose
+    mongoose.Promise = global.Promise;
+    mongoose.connect(db.mongoURI).then(() => {
+        console.log('Conectado ao Mongo')
+    }).catch((err) => {
+        console.log('Erro ao se conectar: '+err)
+    })
 
-// Definindo a pasta public como diretório para arquivos estáticos
-app.use(express.static(__dirname + '/public'));
+    // Definindo o EJS como view engine do projeto
+    app.set('view engine', 'ejs');
 
-// Utilizando métodos nativos do express para receber dados de formulário
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+    // Definindo a pasta public como diretório para arquivos estáticos
+    app.use(express.static(__dirname + '/public'));
 
-// Importando o Passport e configurando a sessão
-const session = require('express-session');
-const passport = require('passport');
-require('./auth')(passport);
-app.use(session({
-    secret: '123',
-    resave: false,
-    saveUninitialized: false,
-    cookie: { maxAge: 60 * 60 * 1000 } // 1 Hora
-}));
+    // Utilizando métodos nativos do express para receber dados de formulário
+    app.use(express.urlencoded({ extended: true }));
+    app.use(express.json());
 
-app.use(passport.initialize());
-app.use(passport.session());
+    // Importando o Passport e configurando a sessão
+    const session = require('express-session');
+    const passport = require('passport');
+    require('./auth')(passport);
+    app.use(session({
+        secret: '123',
+        resave: false,
+        saveUninitialized: false,
+        cookie: { maxAge: 60 * 60 * 1000 } // 1 Hora
+    }));
 
-// Função que não permite que páginas internas serem acessadas sem login
-function authenticationMiddleware(req, res, next){
-    if(req.isAuthenticated()) return next();
-    res.redirect('/login?access=false');
-}
+    app.use(passport.initialize());
+    app.use(passport.session());
+
+    // Função que não permite que páginas internas serem acessadas sem login
+    function authenticationMiddleware(req, res, next){
+        if(req.isAuthenticated()) return next();
+        res.redirect('/login?access=false');
+    }
+
+    // Função para verificar se o usuário logado é o admin
+    function eAdminMiddleware(req, res, next){
+        req.user.then(user => {
+            if(user.eAdmin) return next();
+            res.redirect('/home?access=denied');
+        })
+    }
 
 // Definindo as rotas do site
   // Página de Login
@@ -51,14 +70,18 @@ function authenticationMiddleware(req, res, next){
   app.use('/logout', logoutRouter);
 
   app.get('/', (req,res) => {
-      res.redirect('/login')
+    if(req.user){
+        res.redirect('/home')
+    }else{
+        res.redirect('/login')
+    }
   })
   // Página Inicial
   app.get('/home', authenticationMiddleware, async (req,res) => {
-    const { Mongoose } = require('./db');
+    //const { Mongoose } = require('./db');
 
     // Montando o model de postagens
-    const Posts = Mongoose.model('posts');
+    const Posts = mongoose.model('posts');
     const posts = await Posts.find().sort({'publicationDate': 'desc'});
 
     req.user.then(user => {
@@ -80,9 +103,9 @@ function authenticationMiddleware(req, res, next){
     })
   })
   // Rota para Postagens
-  app.use('/posts', postsRouter);
+  app.use('/posts', authenticationMiddleware, postsRouter);
   // Rota para Temas
-  app.use('/themes', themesRouter);
+  app.use('/themes', authenticationMiddleware, themesRouter);
   
   // Página de Contato do desenvolvedor
   app.get('/contact', authenticationMiddleware, (req,res) => {
@@ -104,7 +127,7 @@ function authenticationMiddleware(req, res, next){
     })
   })
   // Rota para gerenciamento de usuários
-  app.use('/users', userRouter);
+  app.use('/users', authenticationMiddleware, eAdminMiddleware, userRouter);
 
   // Rota para tratamento de erro 404
   app.use((req,res,next) => {

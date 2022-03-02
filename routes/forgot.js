@@ -3,7 +3,8 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 
 // Chamando o arquivo que conecta com o mongodb
-const { Mongoose } = require('../db');
+//const { Mongoose } = require('../db');
+const Mongoose = require('mongoose');
 
 // Cria a collection users
 require('../models/Users')
@@ -11,7 +12,11 @@ require('../models/Users')
 const Users = Mongoose.model('users');
 
 router.get('/', (req,res) => {
-    res.render('pages/forgot', { warning: null })
+    if(req.user){
+        res.redirect('/home')
+    }else{
+        res.render('pages/forgot', { warning: null })
+    }
 });
 
 router.post('/', async(req,res) => {

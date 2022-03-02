@@ -2,13 +2,21 @@ const express = require('express');
 const router = express.Router();
 
 // Importando o mongoose
-const { Mongoose } = require('../db');
+//const { Mongoose } = require('../db');
+const Mongoose = require('mongoose');
 
 // Importa o model de Temas
 require('../models/Themes');
 
 // Monta o model de Temas
 const Themes = Mongoose.model('themes')
+
+function eAuthorMiddleware(req, res, next){
+    req.user.then(user => {
+        if(user.eAuthor) return next();
+        res.redirect('/themes?author=false')
+    })
+}
 
 // -------------------   Rota para temas   ----------------------
 router.get('/', async (req,res) => {
@@ -36,15 +44,12 @@ router.get('/', async (req,res) => {
 })
 
 // Rota para adicionar os temas
-router.get('/add', (req,res) => {
+router.get('/add', eAuthorMiddleware, (req,res) => {
     req.user.then(user => {
-        if(user.eAuthor)
-            res.render('author/addThemes', { 
-                userName: user.userName,
-                eAdmin: user.eAdmin
-            })
-        else
-            res.redirect('/themes?author=false');
+        res.render('author/addThemes', { 
+            userName: user.userName,
+            eAdmin: user.eAdmin
+        })
     })
 })
 
@@ -70,28 +75,32 @@ router.post('/add', async (req,res,next) => {
 })
 
 // Rota para editar os temas
-router.get('/update/:slug', async (req,res) => {
-    const slug = req.params.slug;
-
-    const theme = await Themes.findOne({slug: slug});
-
-    req.user.then(user => {
-        res.render('author/updateThemes', {
-            userName: user.userName,
-            eAdmin: user.eAdmin,
-            theme: theme
+router.get('/update/:id', eAuthorMiddleware, async (req,res,next) => {
+    const id = req.params.id;
+    
+    try{
+        const theme = await Themes.findOne({ _id: id });
+        req.user.then(user => {
+            res.render('author/updateThemes', {
+                userName: user.userName,
+                eAdmin: user.eAdmin,
+                theme: theme
+            })
         })
-    })
+    }catch(err){
+        next(err)
+        res.redirect('/themes')
+    }
 })
 
-router.post('/update/:slug', async (req,res,next) => {
+router.post('/update/:id', async (req,res,next) => {
     const update = {
         name: req.body.name,
         slug: req.body.slug
     }
 
     try{
-        await Themes.findOneAndUpdate({ slug: req.params.slug }, update );
+        await Themes.findOneAndUpdate({ _id: req.params.id }, update );
         res.redirect('/themes')
     }catch(err){
         next(err)
@@ -99,14 +108,15 @@ router.post('/update/:slug', async (req,res,next) => {
 })
 
 // Rota para deletar tema
-router.get('/delete/:slug', async (req,res,next) => {
-    const slug = req.params.slug;
+router.get('/delete/:id', eAuthorMiddleware, async (req,res,next) => {
+    const id = req.params.id;
 
     try{
-        await Themes.findOneAndDelete({ slug: slug });
+        await Themes.findOneAndDelete({ _id: id });
         res.redirect('/themes')
     }catch(err){
         next(err)
+        res.redirect('/themes')
     }
 })
 

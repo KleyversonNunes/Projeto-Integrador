@@ -1,12 +1,13 @@
 const bcrypt = require('bcrypt')
 const LocalStrategy = require('passport-local').Strategy;
+const Mongoose = require('mongoose');
 
 module.exports = (passport) => {
   // Configurando o passport
   
     // Função que que verifica se o nome é válido
     async function findUserName (userName){
-        const { Mongoose } = require('./db');
+        //const { Mongoose } = require('./db');
         require('./models/Users');
         const Users = Mongoose.model('users');
         const doc = await Users.findOne({ userName: userName });
@@ -15,7 +16,7 @@ module.exports = (passport) => {
 
     // Função que que retorna os dados do usuário de acordo com o id
     async function findUserById(id){
-        const { Mongoose } = require('./db');
+        //const { Mongoose } = require('./db');
         require('./models/Users');
         const Users = Mongoose.model('users');
         const doc = await Users.findById(id);
