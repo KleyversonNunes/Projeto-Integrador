@@ -1,6 +1,9 @@
 {
   "name": "projeto_integrador",
   "version": "1.0.0",
+  "engines": {
+    "node": "16.14.0"
+  },
   "description": "Projeto apresentado a disciplina Projeto Integrador I",
   "main": "index.js",
   "scripts": {
@@ -17,5 +20,14 @@
     "mongoose": "^6.1.7",
     "passport": "^0.5.2",
     "passport-local": "^1.0.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KleyversonNunes/projeto-integrador.git"
+  },
+  "bugs": {
+    "url": "https://github.com/KleyversonNunes/projeto-integrador/issues"
+  },
+  "homepage": "https://github.com/KleyversonNunes/projeto-integrador#readme"
 }
