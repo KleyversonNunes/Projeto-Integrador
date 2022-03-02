@@ -135,7 +135,8 @@ const userRouter = require('./routes/user');
   })
 
 // Definido a porta onde o servidor local executará
-app.listen(8000, () => {
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => {
     console.log('Servidor ligado na porta 8000');
 })
 
